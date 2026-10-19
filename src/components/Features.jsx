@@ -1,3 +1,3 @@
 export default function Features() {
-  <div></div>;
+  return <div className="bg-red-300 w-full h-10"></div>;
 }
