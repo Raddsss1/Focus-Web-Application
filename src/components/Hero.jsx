@@ -23,19 +23,20 @@ export default function Hero() {
         }}
       />
       {/* ROOT DIV */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto w-full">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-8 max-w-7xl mx-auto w-full">
         {/* LEFT COLUMN */}
-        <div className="flex flex-col justify-center">
-          <h1 className="text-4xl md:text-6xl lg:text-8xl font-medium ">
+        <div className="flex flex-col justify-center items-center space-y-4">
+          <h1 className="text-4xl md:text-6xl lg:text-8xl font-medium">
             Focus
           </h1>
-          <h1 className="text-2xl md:text3xl lg:text-4xl ">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl ">
             the smart way to monitor your study.
           </h1>
-          <div>1</div>
         </div>
         {/* RIGHT COLUMN */}
-        <div>2</div>
+        {/* <div className="flex items-center justify-center">
+          <div className="w-full h-64 md:h-96 lg:h-[32-rem] bg-white rounded-lg"></div>
+        </div> */}
       </div>
     </section>
   );

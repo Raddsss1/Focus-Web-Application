@@ -52,7 +52,7 @@ export default function NavBar() {
             </a>
           </div>
           <div>
-            <button className="hidden md:block bg-blue-500 hover:bg-slate-500 text-white py-2 px-4 rounded-md transition-colors duration-300">
+            <button className="hidden md:block bg-blue-500 hover:bg-slate-500 hover:cursor-pointer text-white py-2 px-4 rounded-md transition-colors duration-300">
               Get Started
             </button>
           </div>
