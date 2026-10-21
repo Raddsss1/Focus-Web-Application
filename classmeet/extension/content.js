@@ -1,8 +1,9 @@
 // Runs inside meet.google.com. Detects presence, tab focus, mic, camera, hand, reactions.
 (() => {
-  const m = location.pathname.match(/^\/([a-z]{3}-[a-z]{4}-[a-z]{3})/);
-  if (!m) return; // not a meeting room (e.g. Meet home page)
-  const meetCode = m[1];
+  // Meet is a single-page app: the URL can change to a meeting WITHOUT a page reload,
+  // so the meeting code must be read every time, never once at load.
+  const getCode = () =>
+    (location.pathname.match(/^\/([a-z]{3}-[a-z]{4}-[a-z]{3})/) || [])[1];
 
   // ⚠ Google can change Meet's HTML at any time. If something stops being detected, fix it HERE only.
   const SEL = {
@@ -62,8 +63,21 @@
     send({ type: "event", sessionId, classId: cls.id, kind, detail });
 
   async function begin() {
-    const r = await send({ type: "start", classId: cls.id, meetCode });
-    console.log("[ClassMeet] start →", r);
+    starting = true;
+    const { activeClass } = await chrome.storage.local.get("activeClass");
+    if (!activeClass) {
+      say("ClassMeet: pick a class in the extension");
+      starting = false;
+      nextTry = Date.now() + 10000;
+      return;
+    }
+    cls = activeClass;
+    const r = await send({
+      type: "start",
+      classId: cls.id,
+      meetCode: getCode(),
+    });
+    console.log("[ClassMeet] start ->", r);
     if (r?.teacher) {
       isTeacher = true;
       say(`ClassMeet • ${cls.name} • live link shared with students`);
@@ -105,13 +119,12 @@
   }
 
   let beat = 0;
-  const inCall = !!$(SEL.leave);
-  if (inCall !== window.__wasIn) {
-    window.__wasIn = inCall;
-    console.log("[ClassMeet] inCall =", inCall);
-  }
   function step() {
-    const inCall = !!$(SEL.leave);
+    const inCall = !!getCode() && !!$(SEL.leave);
+    if (inCall !== window.__cmIn) {
+      window.__cmIn = inCall;
+      console.log("[ClassMeet] inCall =", inCall);
+    }
     if (
       inCall &&
       !sessionId &&
