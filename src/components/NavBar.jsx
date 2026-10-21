@@ -52,9 +52,12 @@ export default function NavBar() {
             </a>
           </div>
           <div>
-            <button className="hidden md:block bg-blue-500 hover:bg-slate-500 hover:cursor-pointer text-white py-2 px-4 rounded-md transition-colors duration-300">
+            <a
+              href="#get-started"
+              className="hidden md:block bg-blue-500 hover:bg-slate-500 hover:cursor-pointer text-white py-2 px-4 rounded-md transition-colors duration-300"
+            >
               Get Started
-            </button>
+            </a>
           </div>
           {/* MENU BUTTON */}
           <button
